@@ -160,7 +160,7 @@ export function SavingDetail({ id }: { id: string }) {
                 icon={<DollarSign className="h-6 w-6" />}
                 label="Realizar aporte"
                 color="bg-purple-300"
-                onClick={() => {}}
+                onClick={() => router.push(`/savings/${id}/contribute`)}
               />
             </div>
           </DialogTrigger>
@@ -235,7 +235,7 @@ export function SavingDetail({ id }: { id: string }) {
           icon={<Settings className="h-6 w-6" />}
           label="Información grupo"
           color="bg-blue-300"
-          onClick={() => {}}
+          onClick={() => router.push(`/savings/${id}/group-info`)}
         />
       </div>
 

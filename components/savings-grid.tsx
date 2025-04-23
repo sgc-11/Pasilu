@@ -3,9 +3,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Plus, PiggyBank } from "lucide-react"
 import { useRouter } from "next/navigation"
 
@@ -40,6 +37,8 @@ export function SavingsGrid() {
     }
   }
 
+  const router = useRouter()
+
   return (
     <div className="w-full max-w-4xl">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -49,33 +48,13 @@ export function SavingsGrid() {
       </div>
 
       <div className="flex justify-center mt-12">
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild>
-            <Button className="rounded-full bg-purple-600 hover:bg-purple-700 text-white flex flex-col items-center p-6">
-              <Plus className="h-8 w-8 mb-2" />
-              <span>Añadir nuevo ahorro</span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle className="text-center text-xl">Nuevo Ahorro</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Nombre del ahorro</Label>
-                <Input
-                  id="name"
-                  value={newSavingName}
-                  onChange={(e) => setNewSavingName(e.target.value)}
-                  placeholder="Ej: Vacaciones"
-                />
-              </div>
-            </div>
-            <Button onClick={handleAddSaving} className="w-full bg-purple-600 hover:bg-purple-700">
-              Crear ahorro
-            </Button>
-          </DialogContent>
-        </Dialog>
+        <Button
+          className="rounded-full bg-purple-600 hover:bg-purple-700 text-white flex flex-col items-center p-6"
+          onClick={() => router.push("/new-saving")}
+        >
+          <Plus className="h-8 w-8 mb-2" />
+          <span>Añadir nuevo ahorro</span>
+        </Button>
       </div>
     </div>
   )
