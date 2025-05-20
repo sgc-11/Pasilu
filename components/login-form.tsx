@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Fingerprint, Scan } from "lucide-react"
+import { useAuth } from "@/app/context/AuthContext"
 
 /* Pequeño helper para peticiones POST */
 async function post<T, B = unknown>(url: string, body: B): Promise<T> {
@@ -27,6 +28,7 @@ async function post<T, B = unknown>(url: string, body: B): Promise<T> {
 export function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const { login } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -36,14 +38,11 @@ export function LoginForm() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-
     try {
-      const api = process.env.NEXT_PUBLIC_API_URL!
-      await post(`${api}/auth/login`, { mail: username, password })
-      // TODO: guarda los datos del usuario (Context, zustand o localStorage) si lo necesitas
+      await login(username, password)
       router.push("/dashboard")
     } catch (err: any) {
-      setError(err.message ?? "Error desconocido")
+      setError(err.message ?? "Error")
     } finally {
       setLoading(false)
     }
