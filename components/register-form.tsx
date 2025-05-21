@@ -1,9 +1,10 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Fingerprint, Scan } from "lucide-react"
@@ -25,10 +26,14 @@ async function post<T, B = unknown>(url: string, body: B): Promise<T> {
   return res.json()
 }
 
-export function LoginForm() {
-  const [username, setUsername] = useState("")
+export function RegisterForm() {
+  const [name, setName] = useState("")
+  const [lastname, setLastname] = useState("")
+  const [email, setEmail] = useState("")
+  const [location, setLocation] = useState("")
+  const [cellphone, setCellphone] = useState("")
   const [password, setPassword] = useState("")
-  const { login } = useAuth()
+  const { register } = useAuth()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -39,7 +44,7 @@ export function LoginForm() {
     setError(null)
     setLoading(true)
     try {
-      await login(username, password)
+      await register(name, lastname, email, location, cellphone, password)
       router.push("/dashboard")
     } catch (err: any) {
       setError(err.message ?? "Error")
@@ -94,12 +99,48 @@ export function LoginForm() {
       </div>
 
       {/* ---------- Formulario ---------- */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <Input
+          type="text"
+          placeholder="Nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="bg-pink-50 border-pink-200 h-12 text-center"
+        />
+
+        <Input
+          type="text"
+          placeholder="Apellido"
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
+          required
+          className="bg-pink-50 border-pink-200 h-12 text-center"
+        />
+
         <Input
           type="email"
           placeholder="Correo"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="bg-pink-50 border-pink-200 h-12 text-center"
+        />
+
+        <Input
+          type="text"
+          placeholder="Ubicación"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          required
+          className="bg-pink-50 border-pink-200 h-12 text-center"
+        />
+
+        <Input
+          type="tel"
+          placeholder="Celular"
+          value={cellphone}
+          onChange={(e) => setCellphone(e.target.value)}
           required
           className="bg-pink-50 border-pink-200 h-12 text-center"
         />
@@ -120,7 +161,7 @@ export function LoginForm() {
           className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-full h-10 disabled:opacity-50"
           disabled={loading}
         >
-          {loading ? "Ingresando..." : "Ingresar"}
+          {loading ? "Registrando..." : "Registrarse"}
         </Button>
       </form>
 
@@ -137,14 +178,9 @@ export function LoginForm() {
       {/* ---------- Links ---------- */}
       <div className="text-center space-y-2 text-sm">
         <p className="text-gray-600">
-          ¿Aún no tienes tu cuenta?{" "}
-          <Link href="/registration" className="text-purple-700 font-semibold">
-            Registrarse
-          </Link>
-        </p>
-        <p>
-          <Link href="#" className="text-purple-700 font-semibold">
-            Olvidé mi contraseña
+          ¿Ya tienes una cuenta?{" "}
+          <Link href="/" className="text-purple-700 font-semibold">
+            Iniciar sesión
           </Link>
         </p>
       </div>

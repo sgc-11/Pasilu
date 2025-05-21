@@ -10,7 +10,7 @@ export function useAuthGuard() {
 
   useEffect(() => {
     if (user === null) {
-      router.replace("/login")
+      router.replace("/")
     }
   }, [user, router])
 }

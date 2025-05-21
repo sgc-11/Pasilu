@@ -14,7 +14,7 @@ export async function authFetch<T>(
   if (res.status === 401) {
     clearToken()
     // redirección suave al login
-    if (typeof window !== "undefined") window.location.href = "/login"
+    if (typeof window !== "undefined") window.location.href = "/"
     throw new Error("No autorizado")
   }
 

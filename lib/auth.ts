@@ -37,3 +37,30 @@ export async function loginRequest(mail: string, password: string) {
 
     return res.json() as Promise<{ token: string } & User>
 }
+
+
+/* REGISTER REQUEST */
+
+export async function registerRequest(data: {
+  name: string;
+  lastname: string;
+  mail: string;
+  location: string;
+  cellphone: string;
+  password: string;
+}) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/users/register`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }
+  );
+
+  if (!res.ok) {
+    const { error } = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error(error);
+  }
+  return res.json() as Promise<{ token: string } & User>;
+}

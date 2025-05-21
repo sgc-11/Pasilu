@@ -11,7 +11,7 @@ export function LogoutButton() {
     <Button
         onClick={() => {
         logout()
-        router.push("/login")
+        router.push("/")
       }}
       className="text-sm text-red-600">
         Cerrar Sesión
